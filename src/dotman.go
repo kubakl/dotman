@@ -23,12 +23,12 @@ func AddLink(filename, linkname string) {
   var exists []Link
   db.Raw("SELECT * FROM links WHERE link_name = ?", linkname).Scan(&exists)
   if len(exists) == 1 {
-    fmt.Println("A link with this name already exists.")
+    fmt.Println("A dotfile with this name already exists.")
     os.Exit(1)
   }
   err = os.Link(filename, link)
   if err != nil {
-    fmt.Println("Couldn't create the link. Make sure you specified a good file name and that it's not a directory.") 
+    fmt.Println("Couldn't create the dotfile. Make sure you specified a good file name and that it's not a directory.") 
     os.Exit(1)
   }
   db.Create(&Link{LinkName: linkname, OriginalPath: filename, LinkPath: link, CreationDate: time.Now()})
@@ -46,7 +46,7 @@ func ShowLinks() {
     }
     fmt.Println("]")
   } else {
-    fmt.Println("You don't have any link yet.")
+    fmt.Println("You don't have any dotfiles yet.")
   }
 }
 
@@ -57,7 +57,7 @@ func RemoveLink(linkname string) {
   var exists []Link
   db.Raw("SELECT * FROM links WHERE link_name = ?", linkname).Scan(&exists)
   if len(exists) == 0 {
-    fmt.Println("Link with this name does not exist.")
+    fmt.Println("Dotfile with this name does not exist.")
     os.Exit(1)
   }
   db.Where("link_name = ?", linkname).Delete(&exists[0])
@@ -98,9 +98,9 @@ func connect() *gorm.DB {
 
 func print_links(link Link, last bool) {
   fmt.Println("  {")
-  fmt.Printf("    Link name: %s\n", link.LinkName)
+  fmt.Printf("    Dotfile's name: %s\n", link.LinkName)
   fmt.Printf("    Original path: %s\n", link.OriginalPath)
-  fmt.Printf("    Link's path: %s\n", link.LinkPath)
+  fmt.Printf("    Dotfile's path: %s\n", link.LinkPath)
   fmt.Printf("    Creation date: %s\n", format_date(link.CreationDate))
   if !last {
     fmt.Println("  },")
