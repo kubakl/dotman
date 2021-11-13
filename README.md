@@ -3,6 +3,8 @@
 A command line tool for managing dotfiles. It allows you to easily control all of your dotfiles using only few simple commands.
 ## Installation
 ```shell
+git clone https://github.com/kubakl/dotman
+cd dotman
 sudo make install
 ```
 ## Usage
