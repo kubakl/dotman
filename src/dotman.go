@@ -15,8 +15,18 @@ func AddLink(filename, linkname string) {
   db := connect()
   db.AutoMigrate(&Link{})
   link := fmt.Sprintf("%s/.dotfiles/%s", os.Getenv("HOME"), filepath.Base(filename))
-  // TODO: Check if the link already exists
-  err := os.Link(filename, link)
+  _, err := os.Stat(link)
+  if err == nil {
+    fmt.Println("A link to this file already exists.")
+    os.Exit(1)
+  }
+  var exists []Link
+  db.Raw("SELECT * FROM links WHERE link_name = ?", linkname).Scan(&exists)
+  if len(exists) == 1 {
+    fmt.Println("A link with this name already exists.")
+    os.Exit(1)
+  }
+  err = os.Link(filename, link)
   if err != nil {
     fmt.Println("Couldn't create the link. Make sure you specified a good file/directory name.") 
     os.Exit(1)
