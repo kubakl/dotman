@@ -1,6 +1,10 @@
 # Dotman
 ## Description
 A command line tool for managing dotfiles. It allows you to easily control all of your dotfiles using only few simple commands.
+## Installation
+```shell
+sudo make install
+```
 ## Usage
 Adding a new dotfile:
 ```shell
