@@ -1,2 +1,2 @@
-# dotman
-A command line dotfiles manager.
+# Dotman
+A command line tool for managing dotfiles.
