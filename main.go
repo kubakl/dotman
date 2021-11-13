@@ -30,7 +30,12 @@ func main() {
         os.Exit(1)
         break
       case "--help", "-h":
-        fmt.Println("Showing command details.")
+        fmt.Println("Dotman is a tool for managing dotfiles.")
+        fmt.Println("\nUsage:\n\n\tdotman <command> [arguments]")
+        fmt.Println("\nThe commands are:")
+        fmt.Println("\n\tadd <file's path> <link's name>  add a specified file to .dotfiles directory and dotfiles database.")
+        fmt.Println("\tremove <link's name>             remove the specified link from .dotfiles directory and dotfiles database.")
+        fmt.Println("\tshaw                             shaw all the links from the dotfiles database.")
         os.Exit(0)
       default:
         fmt.Printf("Couldn't recognize option %q. Type <dotman --help> for more information about this command.\n", os.Args[1])
