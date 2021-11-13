@@ -28,7 +28,7 @@ func AddLink(filename, linkname string) {
   }
   err = os.Link(filename, link)
   if err != nil {
-    fmt.Println("Couldn't create the link. Make sure you specified a good file/directory name.") 
+    fmt.Println("Couldn't create the link. Make sure you specified a good file name and that it's not a directory.") 
     os.Exit(1)
   }
   db.Create(&Link{LinkName: linkname, OriginalPath: filename, LinkPath: link, CreationDate: time.Now()})
