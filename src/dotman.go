@@ -39,16 +39,29 @@ func ShowLinks() {
   db.AutoMigrate(&Link{})
   var links []Link
   db.Raw("SELECT * FROM links").Scan(&links)
-  fmt.Println("[")
-  for i, v := range links {
-    print_links(v, i + 1 == len(links))
+  if len(links) > 0  {
+    fmt.Println("[")
+    for i, v := range links {
+      print_links(v, i + 1 == len(links))
+    }
+    fmt.Println("]")
+  } else {
+    fmt.Println("You don't have any link yet.")
   }
-  fmt.Println("]")
 }
 
-func RemoveLink() {
+func RemoveLink(linkname string) {
   db := connect()
   db.AutoMigrate(&Link{})
+
+  var exists []Link
+  db.Raw("SELECT * FROM links WHERE link_name = ?", linkname).Scan(&exists)
+  if len(exists) == 0 {
+    fmt.Println("Link with this name does not exist.")
+    os.Exit(1)
+  }
+  db.Where("link_name = ?", linkname).Delete(&exists[0])
+  os.Remove(exists[0].LinkPath)
 }
 
 func create_db_file() {

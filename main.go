@@ -10,15 +10,24 @@ func main() {
   if len(os.Args) > 1 {
     switch os.Args[1] {
       case "add":
-        src.AddLink(os.Args[2], os.Args[3])
+        if len(os.Args) > 3 {
+          src.AddLink(os.Args[2], os.Args[3])
+          os.Exit(0)
+        }
+        fmt.Println("You have to specify file's path and the link's name. Type <dotman --help> for more information about this command.")
+        os.Exit(1)
         break
       case "show":
         src.ShowLinks()
         os.Exit(0)
         break
       case "remove":
-        src.RemoveLink()
-        os.Exit(0)
+        if len(os.Args) > 2 {
+          src.RemoveLink(os.Args[2])
+          os.Exit(0)
+        }
+        fmt.Println("You have to specify the link's name. Type <dotman --help> for more information about this command.")
+        os.Exit(1)
         break
       case "--help", "-h":
         fmt.Println("Showing command details.")
