@@ -31,7 +31,8 @@ func AddLink(filename, linkname string) {
     fmt.Println("Couldn't create the dotfile. Make sure you specified a good file name and that it's not a directory.") 
     os.Exit(1)
   }
-  db.Create(&Link{LinkName: linkname, OriginalPath: filename, LinkPath: link, CreationDate: time.Now()})
+  fullpath, _ := filepath.Abs(filename)
+  db.Create(&Link{LinkName: linkname, OriginalPath: fullpath, LinkPath: link, CreationDate: time.Now()})
 }
 
 func ShowLinks() {
